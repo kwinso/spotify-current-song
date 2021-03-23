@@ -10,8 +10,6 @@ let { accessToken, refreshToken, clientId, clientSecret } = JSON.parse(credsFile
 
 setInterval(async () => {
     try {
-        accessToken = ""
-
         const { data } = await axios.get(
             "https://api.spotify.com/v1/me/player/currently-playing",
             {
@@ -40,15 +38,11 @@ setInterval(async () => {
         // Prints empty line if nothing was printed
         console.log();
     } catch (e) {
-        saveError(e);
-
         if (e.response && (e.response.status == 400 || e.response.status == 401)) {
             await getNewAccessToken();
         } else {
-            console.log(e)
             console.log("Error getting current song.");
             saveError(e);
-
         }
     }
 
