@@ -5,10 +5,12 @@ const fs = require("fs");
 const truncLen = parseInt(process.argv[2]) || 60;
 
 const credsFile = fs.readFileSync(path.join(__dirname, "./creds.json"));
-let { accessToken, refreshToken, clientId, clientSecret } = JSON.parse(credsFile);
 
+let { accessToken, refreshToken, clientId, clientSecret } = JSON.parse(credsFile);
+let output = "";
 
 setInterval(async () => {
+
     try {
         const { data } = await axios.get(
             "https://api.spotify.com/v1/me/player/currently-playing",
@@ -21,31 +23,26 @@ setInterval(async () => {
             }
         );
 
-        if (data) {
-            if (data.is_playing) {
+        if (data && data.is_playing) {
                 const byArtist = data.item.artists[0].name;
                 const song = data.item.name;
 
-                let label = `${byArtist} - ${song}`;
+                let output = `${byArtist} - ${song}`;
 
-                if (label.length > truncLen) {
-                    label = label.substr(0, truncLen - 3) + "...";
+                if (output.length > truncLen) {
+                    output = output.substr(0, truncLen - 3) + "...";
                 }
-
-                return console.log(label);
-            }
         }
-        // Prints empty line if nothing was printed
-        console.log();
     } catch (e) {
         if (e.response && (e.response.status == 400 || e.response.status == 401)) {
             await getNewAccessToken();
         } else {
-            console.log("Error getting current song.");
+            output = "Error getting current song.";
             saveError(e);
         }
     }
 
+    console.log(output);
 }, 5000);
 
 
@@ -64,7 +61,7 @@ async function getNewAccessToken() {
         saveAccessToken(data.access_token);
     } catch (e) {
         saveError(e);
-        console.log("Error getting new access token.");
+        output = "Error getting new access token.";
     }
 
 }
