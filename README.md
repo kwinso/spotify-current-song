@@ -23,7 +23,7 @@ type = custom/script
 format = <label>
 ; Allows to run node.js file from everywhere, 
 ; by default you can run it only in the same dir where the main file is located
-exec = /usr/bin/npm run run --silent --prefix /home/mouse/.config/polybar/scripts/spotify 
+exec = /usr/bin/npm run run --silent --prefix /path/to/script_directory 
 tail = true
 ```
 > You can add your fields, but these four are **required**
