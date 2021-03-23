@@ -1,5 +1,5 @@
 # Spotify Watcher
-This script is written to print currently playing song on spotify.  
+This script is created to print currently playing song on spotify.  
 It uses Spotify's Web API, so it kinda watches for every device.
 
 # Setup
@@ -21,10 +21,11 @@ node spotify.js 120
 type = custom/script
 format = <label>
 format-foreground = ${colors.foreground}
-; Allows to run node.js file from everywhere, by default you can run it only in the same dir as the file
+; Allows to run node.js file from everywhere, 
+; by default you can run it only in the same dir where the main file is located
 exec = /usr/bin/npm run run --silent --prefix /home/mouse/.config/polybar/scripts/spotify 
 tail = true
 ```
 
 # Note
-As soon as you see error in the bar, you can check `errros.log` file, script prints there every error, just not to break your bar
+As soon as you see a message about error in the bar, you can check `errros.log` file, script prints there every error, just not to break your bar
