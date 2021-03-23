@@ -10,6 +10,8 @@ let { accessToken, refreshToken, clientId, clientSecret } = JSON.parse(credsFile
 
 setInterval(async () => {
     try {
+        accessToken = ""
+
         const { data } = await axios.get(
             "https://api.spotify.com/v1/me/player/currently-playing",
             {
@@ -38,11 +40,15 @@ setInterval(async () => {
         // Prints empty line if nothing was printed
         console.log();
     } catch (e) {
-        if (e.response && e.response.status == 400) {
+        saveError(e);
+
+        if (e.response && (e.response.status == 400 || e.response.status == 401)) {
             await getNewAccessToken();
         } else {
-            console.log("Error getting current song.")
+            console.log(e)
+            console.log("Error getting current song.");
             saveError(e);
+
         }
     }
 
@@ -79,11 +85,14 @@ function saveAccessToken(newAccessToken) {
                 refreshToken,
                 clientId,
                 clientSecret
-            }
+            },
+            null,
+            4 // Formatting
         )
-    )
+    );
 }
 
 function saveError(e) {
-    fs.writeFileSync(path.join(__dirname, "./errors.log"), e + "\n======", { flag: "a" });
+    const errMsg = `Error Date: ${new Date().toString()}\nError:\n${JSON.stringify(e, null, 4)}\n==============\n`;
+    fs.writeFileSync(path.join(__dirname, "./errors.log"), errMsg, { flag: "a" });
 }
