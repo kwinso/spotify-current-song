@@ -28,4 +28,4 @@ tail = true
 ```
 
 # Note
-As soon as you see a message about error in the bar, you can check `errros.log` file, script prints there every error, just not to break your bar
+As soon as you see a message about error in the bar, you can check `erros.log` file, script prints there every error, just not to break your bar
