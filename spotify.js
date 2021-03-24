@@ -11,10 +11,10 @@ let output = "";
 let nextSongCheck = 0;
 
 setInterval(async () => {
-    const oldOutput = output;
+    let oldOutput = output;
     try {
         if (Date.now() > nextSongCheck) {
-            const { data } = await axios.get(
+            const { data, status } = await axios.get(
                 "https://api.spotify.com/v1/me/player/currently-playing",
                 {
                     headers: {
@@ -25,7 +25,7 @@ setInterval(async () => {
                 }
             );
 
-
+            output = ""
             if (data && data.is_playing) {
                 const byArtist = data.item.artists[0].name;
                 const song = data.item.name;
@@ -34,7 +34,11 @@ setInterval(async () => {
 
                 if (output.length > truncLen)
                     output = output.substr(0, truncLen - 3) + "...";
-            } else {
+            }
+            
+            // API sends 204 if there's no content, so script will check a little bit later to decrease
+            // requests amount and update output
+            if (status == 204) {
                 // Check again for song 10 seconds later
                 nextSongCheck = Date.now() + 1000 * 10;
             }
@@ -48,7 +52,8 @@ setInterval(async () => {
         }
     }
 
-    if (oldOutput != output) console.log(output);
+    if (output != oldOutput)
+        console.log(output);
 }, 5000);
 
 
