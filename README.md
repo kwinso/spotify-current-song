@@ -23,6 +23,7 @@ type = custom/script
 format = <label>
 ; Allows to run node.js file from everywhere, 
 ; by default you can run it only in the same dir where the main file is located
+; * Add number at the end of this string to specify truncation length
 exec = /usr/bin/npm run run --silent --prefix /path/to/script_directory 
 tail = true
 ```
