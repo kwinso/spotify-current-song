@@ -8,30 +8,36 @@ const credsFile = fs.readFileSync(path.join(__dirname, "./creds.json"));
 
 let { accessToken, refreshToken, clientId, clientSecret } = JSON.parse(credsFile);
 let output = "";
+let nextSongCheck = 0;
 
 setInterval(async () => {
-
+    const oldOutput = output;
     try {
-        const { data } = await axios.get(
-            "https://api.spotify.com/v1/me/player/currently-playing",
-            {
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${accessToken}`
-                },
-            }
-        );
+        if (Date.now() > nextSongCheck) {
+            const { data } = await axios.get(
+                "https://api.spotify.com/v1/me/player/currently-playing",
+                {
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`
+                    },
+                }
+            );
 
-        if (data && data.is_playing) {
+
+            if (data && data.is_playing) {
                 const byArtist = data.item.artists[0].name;
                 const song = data.item.name;
 
-                let output = `${byArtist} - ${song}`;
+                output = `${byArtist} - ${song}`;
 
-                if (output.length > truncLen) {
+                if (output.length > truncLen)
                     output = output.substr(0, truncLen - 3) + "...";
-                }
+            } else {
+                // Check again for song 10 seconds later
+                nextSongCheck = Date.now() + 1000 * 10;
+            }
         }
     } catch (e) {
         if (e.response && (e.response.status == 400 || e.response.status == 401)) {
@@ -42,7 +48,7 @@ setInterval(async () => {
         }
     }
 
-    console.log(output);
+    if (oldOutput != output) console.log(output);
 }, 5000);
 
 
