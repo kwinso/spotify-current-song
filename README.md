@@ -3,7 +3,7 @@ This script is created to print currently playing song on spotify.
 It uses Spotify's Web API, so it kinda watches for every device.
 
 # Setup
-- Download the [Spotify Tui](https://github.com/Rigellute/spotify-tui#installation).  
+- Download the [Spotify Tui](https://github.com/Rigellute/spotify-tui#installation) and log in via the app.
 - Then, open `~/.config/spotify-tui/.spotify_token_cache.json` and find `refresh_token` field, copy it.  
 - Paste refresh token to `creds.json` file, which is relative to the script.
 - Also provide `clientId` and `clientSecret` from your [Spotify Dashboard](https://developer.spotify.com/dashboard/) (must be the same as **Spotify Tui** used).
