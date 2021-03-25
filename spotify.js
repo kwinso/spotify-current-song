@@ -49,9 +49,10 @@ setInterval(async () => {
             const status = e.response.status;
             output = "Error with API";
 
-            if (status == 401 || status == 400)
+            if (status == 401 || status == 400) {
+                output = "Refresing Access Token"
                 await getNewAccessToken();
-            if (status == 503)
+            } else if (status == 503)
                 output = "API Timeout...";
             else
                 saveError(e);
