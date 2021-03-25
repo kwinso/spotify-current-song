@@ -44,17 +44,20 @@ setInterval(async () => {
             }
         }
     } catch (e) {
+        output = "Error getting current song.";
         if (e.response) {
             const status = e.response.status;
+            output = "Error with API";
+
             if (status == 401 || status == 400)
                 await getNewAccessToken();
-
             if (status == 503)
                 output = "API Timeout...";
-        } else {
-            output = "Error getting current song.";
+            else
+                saveError(e);
+
+        } else
             saveError(e);
-        }
     }
 
     if (output != oldOutput)
