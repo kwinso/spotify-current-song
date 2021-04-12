@@ -4,7 +4,8 @@
   "description": "Check Spotify Track playing rn",
   "main": "spotify.js",
   "scripts": {
-    "run": "node spotify.js"
+    "track": "node spotify.js",
+    "listenning": "node listenning_mode.js"
   },
   "author": "",
   "license": "ISC",

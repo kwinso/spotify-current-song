@@ -1,12 +1,15 @@
 const axios = require("axios").default;
-const path = require("path");
-const fs = require("fs");
 
 const truncLen = parseInt(process.argv[2]) || 60;
 
-const credsFile = fs.readFileSync(path.join(__dirname, "./creds.json"));
+const {
+    accessToken,
+    refreshToken,
+    clientSecret,
+    clientId,
+    saveAccessToken
+} = require("./tokens.js");
 
-let { accessToken, refreshToken, clientId, clientSecret } = JSON.parse(credsFile);
 let output = "";
 let nextSongCheck = 0;
 
@@ -55,17 +58,12 @@ setInterval(async () => {
                 await getNewAccessToken();
             } else if (status == 503)
                 output = "API Timeout...";
-            else
-                saveError(e);
-
-        } else
-            saveError(e);
+        }
     }
 
     if (output != oldOutput)
         console.log(output);
 }, 5000);
-
 
 
 async function getNewAccessToken() {
@@ -81,30 +79,7 @@ async function getNewAccessToken() {
         );
         saveAccessToken(data.access_token);
     } catch (e) {
-        saveError(e);
         output = "Error getting new access token.";
     }
 
-}
-
-function saveAccessToken(newAccessToken) {
-    accessToken = newAccessToken;
-    fs.writeFileSync(
-        path.join(__dirname, "./creds.json"),
-        JSON.stringify(
-            {
-                accessToken: newAccessToken,
-                refreshToken,
-                clientId,
-                clientSecret
-            },
-            null,
-            4 // Formatting
-        )
-    );
-}
-
-function saveError(e) {
-    const errMsg = `Error Date: ${new Date().toString()}\nError:\n${JSON.stringify(e, null, 4)}\n==============\n`;
-    fs.writeFileSync(path.join(__dirname, "./errors.log"), errMsg, { flag: "a" });
 }

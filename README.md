@@ -9,14 +9,14 @@ It uses Spotify's Web API, so it kinda watches for every device.
 - Also provide `clientId` and `clientSecret` from your [Spotify Dashboard](https://developer.spotify.com/dashboard/) (must be the same as **Spotify Tui** used).
 - `npm install` before the run
 
-# Running
+# Current Track
 If you have ~~big booty~~ wide screen, you can pass your own length of truncation. It's the first parameter for the script
 ```bash
 node spotify.js 120
 ```
 > Default truncation length is 60
 
-# Polybar config
+### Polybar config
 ```ini
 [module/spotify]
 type = custom/script
@@ -29,5 +29,13 @@ tail = true
 ```
 > You can add your fields, but these four are **required**
 
-## Note
-As soon as you see a message about error in the bar, you can check `errors.log` file, script prints there every error, just not to break your bar
+# Listenning mode.
+This feauture allows to set volume of your player to pretty low number (`default=20`). This can be usefull when you try to quickly listen to some voice message or see a vid, but it's a lot of time to go to the spotify player. 
+Script's called `listenning_mode.js`
+
+### Polybar config
+```ini
+# 20 is the number volume will be dropped to
+click-left = /usr/bin/npm run --prefix /home/mouse/.config/polybar/scripts/spotify listenning 20
+```
+> This field also can be added to the `Current Track` script, so you can use it in tandem, just add the live above to the `Current Track`'s polybar config.
