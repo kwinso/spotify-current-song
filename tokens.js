@@ -8,11 +8,16 @@ const credsFile = fs.readFileSync(path.join(__dirname, "./creds.json"));
 let { accessToken, refreshToken, clientId, clientSecret } = JSON.parse(credsFile.toString());
 
 
+
+
 module.exports = {
-    accessToken,
     refreshToken,
     clientId,
     clientSecret,
+        
+    getAccessToken() {
+        return accessToken;
+    },
 
     saveAccessToken(newAccessToken) {
         accessToken = newAccessToken;

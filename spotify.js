@@ -3,11 +3,11 @@ const axios = require("axios").default;
 const truncLen = parseInt(process.argv[2]) || 60;
 
 const {
-    accessToken,
     refreshToken,
     clientSecret,
     clientId,
-    saveAccessToken
+    saveAccessToken,
+    getAccessToken
 } = require("./tokens.js");
 
 let output = "";
@@ -23,7 +23,7 @@ setInterval(async () => {
                     headers: {
                         "Accept": "application/json",
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${accessToken}`
+                        "Authorization": `Bearer ${getAccessToken()}`
                     },
                 }
             );

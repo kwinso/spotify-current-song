@@ -2,12 +2,10 @@
 // Set volume PUT https://api.spotify.com/v1/me/player/volume
 
 const axios = require("axios").default;
-const { accessToken } = require("./tokens");
+const { getAccessToken  } = require("./tokens");
 
 const listenningVolume = parseInt(process.argv[2]) || 20;
 
-
-console.log(listenningVolume);
 async function getCurrentVolume() {
 
     try {
@@ -17,7 +15,7 @@ async function getCurrentVolume() {
                 headers: {
                     "Accept": "application/json",
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${accessToken}`
+                    "Authorization": `Bearer ${getAccessToken()}`
                 },
             }
         );
@@ -38,7 +36,7 @@ async function toggleListenningMode() {
                 headers: {
                     "Accept": "application/json",
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${accessToken}`
+                    "Authorization": `Bearer ${getAccessToken()}`
                 },
             }
         );
