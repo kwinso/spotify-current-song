@@ -29,7 +29,7 @@ format = <label>
 ; Allows to run node.js file from everywhere, 
 ; by default you can run it only in the same dir where the main file is located
 ; * Add number at the end of this string to specify truncation length
-exec = /usr/bin/npm run run --silent --prefix /path/to/script_directory 
+exec = /usr/bin/npm run --silent --prefix /path/to/script_directory track
 tail = true
 ```
 > You can add your fields, but these four are **required**
@@ -41,6 +41,6 @@ Script's called `listenning_mode.js`
 ### Polybar config
 ```ini
 # 20 is the number volume will be dropped to
-click-left = /usr/bin/npm run --prefix /home/mouse/.config/polybar/scripts/spotify listenning 20
+click-left = /usr/bin/npm run --prefix /home/mouse/.config/polybar/scripts/spotify listenning
 ```
 > This field also can be added to the `Current Track` script, so you can use it in tandem, just add the live above to the `Current Track`'s polybar config.
