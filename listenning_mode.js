@@ -15,7 +15,7 @@ async function getCurrentVolume() {
                 headers: {
                     "Accept": "application/json",
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${getAccessToken()}`
+                	"Authorization": `Bearer ${getAccessToken()}`
                 },
             }
         );

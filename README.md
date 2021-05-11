@@ -9,13 +9,18 @@ It uses Spotify's Web API, so it kinda watches for every device.
 - Also provide `clientId` and `clientSecret` from your [Spotify Dashboard](https://developer.spotify.com/dashboard/) (must be the same as **Spotify Tui** used).
 - `npm install` before the run
 
-# Current Track
-If you have ~~big booty~~ wide screen, you can pass your own length of truncation. It's the first parameter for the script
-```bash
-node spotify.js 120
-```
-> Default truncation length is 60
+# Output Format
+Output format is `Track - Artist`.
 
+# Arguments
+1. Update timeout in seconds
+2. Length of truncation in characters  
+Example:
+```bash
+node spotify.js 5 120
+```
+> Defautl update timeout is 5 seconds
+> Default truncation length is 60
 ### Polybar config
 ```ini
 [module/spotify]

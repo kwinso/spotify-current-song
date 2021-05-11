@@ -1,6 +1,7 @@
 const axios = require("axios").default;
 
-const truncLen = parseInt(process.argv[2]) || 60;
+const updateTime = parseInt(process.argv[2]) || 5;
+const truncLen = parseInt(process.argv[3]) || 60; 
 
 const {
     refreshToken,
@@ -29,12 +30,12 @@ setInterval(async () => {
             );
 
             output = ""
-            
+
             if (data && data.is_playing) {
                 const byArtist = data.item.artists[0].name;
                 const song = data.item.name;
 
-                output = `${byArtist} - ${song}`;
+                output = `${song} - ${byArtist}`;
 
                 if (output.length > truncLen)
                     output = output.substr(0, truncLen - 3).trim() + "...";
@@ -63,7 +64,7 @@ setInterval(async () => {
 
     if (output != oldOutput)
         console.log(output);
-}, 5000);
+}, updateTime * 1000);
 
 
 async function getNewAccessToken() {
